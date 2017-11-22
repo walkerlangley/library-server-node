@@ -6,7 +6,8 @@ const {
   GraphQLID,
   GraphQLBool,
   GraphQLSchema,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull,
 } = graphql
 
 const {
@@ -18,6 +19,10 @@ const {
   getBookAuthors,
   getAuthorsBooks,
 } = require('../database/queries')
+
+const {
+  addUser,
+} = require('../database/mutations')
 
 const AuthorType = new GraphQLObjectType({
   name: 'Author',
@@ -120,6 +125,28 @@ const RootQuery = new GraphQLObjectType({
   })
 })
 
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  description: 'Mutate Stuff',
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        firstName: { type: new GraphQLNonNull(GraphQLString) },
+        lastName: { type: new GraphQLNonNull(GraphQLString) },
+        username: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: (GraphQLString) },
+        occupation: { type: GraphQLString },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (parentValue, args) => {
+        return await addUser(args)
+      }
+    }
+  }
+})
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation
 })
