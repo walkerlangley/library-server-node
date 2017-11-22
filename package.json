@@ -1,0 +1,26 @@
+{
+  "name": "library-server-node",
+  "version": "1.0.0",
+  "description": "Node server for library app with GraphQL",
+  "main": "index.js",
+  "repository": "https://github.com/walkerlangley/library-server-node.git",
+  "author": "Walker Langley <walkerlangley@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node_modules/.bin/nodemon index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphql": "^0.11.7",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.1",
+    "nodemon": "^1.12.1",
+    "passport-facebook": "^2.1.1"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1"
+  }
+}
