@@ -93,6 +93,7 @@ module.exports = {
     return db.query(`
       INSERT INTO usersBooks (userId, bookId, statusId)
       VALUES (?, ?, ?)
+      ON DUPLICATE KEY UPDATE userId = VALUES(userId), bookId = VALUES(bookId), statusId = VALUES(statusId)
       `, [userId, bookId, statusId]
     )
   }

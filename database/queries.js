@@ -29,6 +29,15 @@ module.exports = {
     return db.query(` SELECT b.* FROM books b WHERE b.id = ?  `, id)
   },
 
+  getBookByISBN: isbn => {
+    // Probably a better way
+    if (isbn.length === 13) {
+      return db.query(`SELECT id FROM books WHERE isbn13 = ?`, isbn)
+    } else if (isbn.length === 10) {
+      return db.query(`SELECT id FROM books WHERE isbn10 = ?`, isbn)
+    }
+  },
+
   getUserFriends: (id) => {
     return db.query(`
     select
@@ -71,6 +80,13 @@ module.exports = {
         a.id = ?
     `,
     id)
+  },
+
+  getAuthBookId: (authId, bookId) => {
+    return db.query(`
+    SELECT id FROM authorBooks WHERE authorId = ? and bookId = ?`,
+    [authId, bookId]
+    )
   },
 
   getAuthorById: (id) => {

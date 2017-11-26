@@ -37,6 +37,7 @@ const {
   fetchGoogleBookByISBN,
   getAuthorIDs,
   getAuthorBookIDs,
+  getBookIDs,
 } = require('../utils/helpers')
 
 const AuthorType = new GraphQLObjectType({
@@ -181,8 +182,7 @@ const mutation = new GraphQLObjectType({
         const googleBook = await fetchGoogleBookByISBN(isbn);
         const { authorNames, bookArgs } = await transformBookData(googleBook);
         const authIDs = await getAuthorIDs(authorNames)
-        const book = await addBook(bookArgs)
-        const bookId = book.insertId
+        const bookId = await getBookIDs(bookArgs)
         const authBook = await getAuthorBookIDs(authIDs, bookId)
         const newBook = await getBookById(bookId)
         const userBook = await addUserBook(userId, bookId, statusId)

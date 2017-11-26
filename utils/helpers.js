@@ -10,6 +10,8 @@ const {
   getAuthorsBooks,
   getAuthorById,
   getAuthorByName,
+  getBookByISBN,
+  getAuthBookId,
 } = require('../database/queries')
 
 const {
@@ -85,9 +87,22 @@ module.exports = {
 
   getAuthorBookIDs: (authIDs, bookId) => {
     const authBookIds = authIDs.map(async (id) => {
-      const authBook = await addAuthorBook(id, bookId)
-      return authBook.insertId
+      const exists = await getAuthBookId(id, bookId)
+      if (!exists.length) {
+        const authBook = await addAuthorBook(id, bookId)
+        return authBook.insertId
+      }
     })
     return Promise.all(authBookIds)
   },
+
+  getBookIDs: async bookArgs => {
+    const bookId = await getBookByISBN(bookArgs.isbn13)
+    if (bookId) {
+      return bookId[0].id;
+    } else {
+      const book = await addBook(bookArgs);
+      return book.insertId
+    }
+  }
 }
