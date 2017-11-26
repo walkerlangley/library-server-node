@@ -29,6 +29,7 @@ const {
   addBook,
   addAuthor,
   addAuthorBook,
+  addUserBook,
 } = require('../database/mutations')
 
 const {
@@ -173,17 +174,20 @@ const mutation = new GraphQLObjectType({
       type: BookType,
       args: {
         isbn: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) },
+        statusId: { type: GraphQLInt },
       },
-      resolve: async (parentValue, { isbn }) => {
+      resolve: async (parentValue, { isbn, userId, statusId = 1 }) => {
         const googleBook = await fetchGoogleBookByISBN(isbn);
         const { authorNames, bookArgs } = await transformBookData(googleBook);
         const authIDs = await getAuthorIDs(authorNames)
         const book = await addBook(bookArgs)
         const bookId = book.insertId
         const authBook = await getAuthorBookIDs(authIDs, bookId)
-        const res = await getBookById(bookId)
+        const newBook = await getBookById(bookId)
+        const userBook = await addUserBook(userId, bookId, statusId)
 
-        return res[0]
+        return newBook[0]
       }
     }
   }

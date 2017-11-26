@@ -88,4 +88,12 @@ module.exports = {
       `, [authId, bookId]
     )
   },
+
+  addUserBook: (userId, bookId, statusId) => {
+    return db.query(`
+      INSERT INTO usersBooks (userId, bookId, statusId)
+      VALUES (?, ?, ?)
+      `, [userId, bookId, statusId]
+    )
+  }
 }
