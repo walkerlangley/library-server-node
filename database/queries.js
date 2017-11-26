@@ -26,7 +26,7 @@ module.exports = {
   },
 
   getBookById: (id) => {
-    return db.query(`SELECT * FROM books WHERE id = ?`, id)
+    return db.query(` SELECT b.* FROM books b WHERE b.id = ?  `, id)
   },
 
   getUserFriends: (id) => {
@@ -71,5 +71,13 @@ module.exports = {
         a.id = ?
     `,
     id)
+  },
+
+  getAuthorById: (id) => {
+    return db.query(`SELECT * FROM authors WHERE id = ?`, id)
+  },
+
+  getAuthorByName: ([firstName, lastName]) => {
+    return db.query(`SELECT * FROM authors WHERE firstName = ? AND lastName = ?`, [firstName, lastName])
   },
 }

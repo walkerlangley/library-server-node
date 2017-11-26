@@ -1,7 +1,7 @@
 const db = require('./db');
 
 module.exports = {
-  addUser: async (args) => {
+  addUser: (args) => {
     const {
       firstName,
       lastName,
@@ -10,17 +10,82 @@ module.exports = {
       occupation,
       email
     } = args
-    const res = await db.query(`
-    INSERT INTO users (firstName, lastName, userName, password, occupation, email)
-    VALUES (?, ?, ?, ?, ?, ?)`,
+    return db.query(`
+      INSERT INTO users (firstName, lastName, userName, password, occupation, email)
+      VALUES (?, ?, ?, ?, ?, ?)`,
+        [
+          firstName,
+          lastName,
+          username,
+          password,
+          occupation,
+          email
+        ]
+    )
+  },
+  addAuthor: (authorNames) => {
+    return db.query(`
+      INSERT INTO authors (firstName, lastName)
+      VALUES (?, ?)`,
+      authorNames
+    )
+  },
+
+  addBook: (args) => {
+    const {
+      isbn10,
+      isbn13,
+      title,
+      subtitle,
+      description,
+      smallThumbnail,
+      thumbnail,
+      previewLink,
+      infoLink,
+      buyLink,
+      publishedDate,
+      pageCount,
+      averageRating,
+    } = args
+    return db.query(`
+    INSERT INTO books (
+      isbn10,
+      isbn13,
+      title,
+      subtitle,
+      description,
+      smallThumbnail,
+      thumbnail,
+      previewLink,
+      infoLink,
+      buyLink,
+      publishedDate,
+      pageCount,
+      averageRating
+      )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        firstName,
-        lastName,
-        username,
-        password,
-        occupation,
-        email
+      isbn10,
+      isbn13,
+      title,
+      subtitle,
+      description,
+      smallThumbnail,
+      thumbnail,
+      previewLink,
+      infoLink,
+      buyLink,
+      publishedDate,
+      pageCount,
+      averageRating,
       ])
-    return await res.insertId
-  }
+  },
+
+  addAuthorBook: (authId, bookId) => {
+    return db.query(`
+      INSERT INTO authorBooks (authorId, bookId)
+      VALUES (?, ?)
+      `, [authId, bookId]
+    )
+  },
 }
