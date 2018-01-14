@@ -6,6 +6,7 @@ const config = {
   database: 'library'
 }
 
+// For a more functional approach
 //const loadDBConn = db => config => {
   //const conn = (sql, args) => {
     //return new Promise((resolve, reject) =>
@@ -23,6 +24,10 @@ const config = {
 class Database {
   constructor(config) {
     this.connection = mysql.createConnection(config);
+    this.connection.connect(err => {
+      if (err) throw err;
+      console.log('DB Connected!');
+    })
   }
   query(sql, args) {
     return new Promise((resolve, reject) => {
