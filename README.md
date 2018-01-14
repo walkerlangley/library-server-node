@@ -4,8 +4,8 @@ Node server for library using GraphQL
 ## Steps to get this working
 1. Make sure you have mysql running
 2. Create a local database called "library" (or call it whatever you want to but you'll need to change the db name in database/db.js (line 6))
-3. Run the following commands
-  - `mkdir library-server-node && cd library-server-node`
+3. Clone this repo and run the following commands
+  - `cd library-server-node`
   - `yarn` or `npm install`
   - `npm run db` to create the necessary tables and pre-load data
   - `npm start` to fire up the server.  Go to `localhost:4000/graphiql` to start running GraphQL queries
