@@ -98,7 +98,7 @@ module.exports = {
 
   getBookIDs: async bookArgs => {
     const bookId = await getBookByISBN(bookArgs.isbn13)
-    if (bookId) {
+    if (bookId.length) {
       return bookId[0].id;
     } else {
       const book = await addBook(bookArgs);
