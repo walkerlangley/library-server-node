@@ -33,7 +33,7 @@ query {
   }
 }
 ```
-- Instead of using the GUI at localhost:4000/graphiql, you can also use Insomnia (https://insomnia.rest/blog/introducing-graphql/)
+- Instead of using the GUI / testing thingy at localhost:4000/graphiql, you can also use Insomnia (https://insomnia.rest/blog/introducing-graphql/)
 - Or use CURL
   ```
   curl --request POST \
